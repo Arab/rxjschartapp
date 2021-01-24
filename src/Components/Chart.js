@@ -32,7 +32,7 @@ const Chart = ({ stream, title }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [stream]);
 
   return (
     <div class="chart">
