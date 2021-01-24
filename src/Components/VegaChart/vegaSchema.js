@@ -6,12 +6,17 @@ export const vegaSchema = {
     name: "vegaData",
     format: {
       parse: {
-        date: "date:'%Y-%m-%d'",
+        date: "date:'%Y-%m-%d %H:%M'",
       },
     },
   },
   encoding: {
-    x: { field: "date", type: "temporal", title: "Date in 2009" },
+    x: {
+      field: "date",
+      type: "ordinal",
+      timeUnit: "yearmonthdatehoursminutes",
+      title: "Time frame 5 minutes",
+    },
     y: { title: "price" },
     color: {
       condition: {

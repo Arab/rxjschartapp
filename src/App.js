@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import VegaChart from "./Components/VegaChart";
-import { vegaData } from "./Components/VegaChart/vegaData";
-import createStream from "./rxjs/createStream";
+import BTCStream from "./rxjs/BTCStream";
 
 function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const subscription = createStream.subscribe(
+    const BTCsubscription = BTCStream.subscribe(
       (next) => {
         if (next) {
-          setData((data) => [...data, next]);
+          if (Array.isArray(next)) {
+            setData(next);
+          } else {
+            setData((data) => {
+              if (data.length === 30) {
+                const newData = [...data];
+                newData.shift();
+                newData.push(next);
+                return newData;
+              } else {
+                return [...data, next];
+              }
+            });
+          }
         } else {
           setData([]);
         }
@@ -19,19 +31,18 @@ function App() {
       (error) => console.log(error),
       () => console.log("stream complete")
     );
-    return subscription.unsubscribe;
+    return () => {
+      BTCsubscription.unsubscribe();
+    };
   }, []);
 
   return (
     <div className="App">
-      <VegaChart data={vegaData} />
-      {data &&
-        data.length > 0 &&
-        data.map((el, i) => (
-          <div
-            key={i}
-          >{`symbol: ${el.symbol}, data: ${el.date}, price: ${el.price}`}</div>
-        ))}
+      {data.length > 0 ? (
+        <VegaChart data={data} title="BTC" />
+      ) : (
+        <div>Loading</div>
+      )}
     </div>
   );
 }

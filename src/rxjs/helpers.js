@@ -1,9 +1,3 @@
-export const getRandomInt = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
 export const getRandomSign = () => {
   const rand = Math.random();
   if (rand > 0.5) {
@@ -13,13 +7,24 @@ export const getRandomSign = () => {
   }
 };
 
-const VOLATILITY_BTC = 42;
-
 export const generateNewBTCPrice = (oldPrice) => {
-  let changePercent = 2 * Math.random() * VOLATILITY_BTC;
-  if (changePercent > VOLATILITY_BTC) {
-    changePercent = changePercent - 2 * VOLATILITY_BTC;
+  const change = Math.random();
+  const sign = getRandomSign();
+  const newPrice = oldPrice + change * sign;
+  if (newPrice > 20) {
+    return newPrice;
+  } else {
+    return newPrice + 10;
   }
+};
 
-  return Math.floor((oldPrice + (oldPrice * changePercent) / 1000) * 100) / 100;
+export const generateNewETHPrice = (oldPrice) => {
+  const change = Math.random();
+  const sign = getRandomSign();
+  const newPrice = oldPrice + change * sign;
+  if (newPrice > 20) {
+    return newPrice;
+  } else {
+    return newPrice + 10;
+  }
 };
