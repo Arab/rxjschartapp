@@ -1,3 +1,9 @@
+App combining RxJs + React + Vega (charts)
+
+rxjs used to generate BTC and ETH signals
+
+presented on Vega chart
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
